@@ -19,32 +19,41 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     // Client-side validation
     if (!email.trim()) {
       setError("Email address is required.");
+      setLoading(false);
       return;
     }
     if (!validateEmail(email.trim())) {
       setError("Please enter a valid email address (e.g. name@domain.com).");
+      setLoading(false);
       return;
     }
     if (!password) {
       setError("Password is required.");
+      setLoading(false);
       return;
     }
     if (password.length < 6) {
       setError("Password must be at least 6 characters long.");
+      setLoading(false);
       return;
     }
 
-    setShowSuccess(true);
     login({ email: email.trim(), password })
       .then(data => {
         saveAuth({ token: data.token, user: data.user });
+        setLoading(false);
+        setShowSuccess(true);
+        // Automatically redirect to dashboard immediately
+        navigate("/dashboard", { replace: true });
       })
       .catch(err => {
-        console.error("Background auth failed:", err);
+        setLoading(false);
+        setError(err.message || "Login failed. Please check your credentials.");
       });
   };
 
@@ -221,7 +230,10 @@ export default function Login() {
               type="button"
               className="acg-btn"
               style={{ marginTop: 24 }}
-              onClick={() => setShowSuccess(false)}
+              onClick={() => {
+                setShowSuccess(false);
+                navigate("/dashboard", { replace: true });
+              }}
             >
               Continue
             </button>

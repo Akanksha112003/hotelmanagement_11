@@ -22,48 +22,61 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     // Client-side validation
     if (!name.trim()) {
       setError("Full name is required.");
+      setLoading(false);
       return;
     }
     if (name.trim().length < 3) {
       setError("Name must be at least 3 characters long.");
+      setLoading(false);
       return;
     }
     if (!email.trim()) {
       setError("Email address is required.");
+      setLoading(false);
       return;
     }
     if (!validateEmail(email.trim())) {
       setError("Please enter a valid email address (e.g. name@domain.com).");
+      setLoading(false);
       return;
     }
     if (!password) {
       setError("Password is required.");
+      setLoading(false);
       return;
     }
     if (password.length < 6) {
       setError("Password must be at least 6 characters long.");
+      setLoading(false);
       return;
     }
     if (!confirmPassword) {
       setError("Please confirm your password.");
+      setLoading(false);
       return;
     }
     if (password !== confirmPassword) {
       setError("Passwords do not match. Please verify.");
+      setLoading(false);
       return;
     }
 
-    setShowSuccess(true);
     register({ name: name.trim(), email: email.trim(), password })
       .then(data => {
         saveAuth({ token: data.token, user: data.user });
+        setLoading(false);
+        setShowSuccess(true);
+        // Automatically redirect to dashboard immediately
+        navigate("/dashboard", { replace: true });
       })
       .catch(err => {
-        console.error("Background registration failed:", err);
+        setLoading(false);
+        setError(err.message || "Registration failed. Please try again.");
       });
   };
 
@@ -274,7 +287,10 @@ export default function Register() {
               type="button"
               className="acg-btn"
               style={{ marginTop: 24 }}
-              onClick={() => setShowSuccess(false)}
+              onClick={() => {
+                setShowSuccess(false);
+                navigate("/dashboard", { replace: true });
+              }}
             >
               Continue
             </button>

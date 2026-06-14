@@ -25,35 +25,36 @@ export const registeruser = async (req, res, next) => {
 
     // Fallback if DB is offline
     if (isOffline) {
-      const emailLower = email.toLowerCase();
+      const emailLower = email.trim().toLowerCase();
       // Check in-memory database
       const exists = OFFLINE_USERS.find((u) => u.email.toLowerCase() === emailLower);
       if (exists) {
         return res.status(200).json({
           success: false,
           sucess: false,
-          message: "User with this email already exists (Offline Fallback)",
+          message: "User with this email already exists",
         });
       }
 
       const mockUserId = `60c72b2f9b1d8b2d${Math.floor(Math.random() * 100000000).toString(16).padStart(8, '0')}`;
       const newUser = {
         id: mockUserId,
-        name,
+        name: name.trim(),
         email: emailLower,
-        password, // Store plain text for in-memory comparisons
+        password: password, // Store plain text for in-memory comparisons
         role: "user",
       };
       OFFLINE_USERS.push(newUser);
+      console.log("Offline registered user:", emailLower, "| Total offline users:", OFFLINE_USERS.length);
 
       return res.status(201).json({
         success: true,
         sucess: true,
-        message: "User registered successfully (Offline Fallback)",
+        message: "User registered successfully",
         token: generateToken(mockUserId),
         user: {
           id: mockUserId,
-          name: name,
+          name: newUser.name,
           email: emailLower,
           role: "user",
         },
@@ -67,7 +68,7 @@ export const registeruser = async (req, res, next) => {
         message: "User with this email already exists",
       });
     }
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ name: name.trim(), email: email.trim().toLowerCase(), password });
     return res.status(201).json({
       success: true,
       sucess: true,
@@ -96,19 +97,20 @@ export const loginuser = async (req, res, next) => {
       });
     }
 
+    const emailLower = email.trim().toLowerCase();
     let user = null;
     let isOffline = false;
-    
+
     try {
-      user = await User.findOne({ email }).maxTimeMS(5000);
+      user = await User.findOne({ email: emailLower }).maxTimeMS(5000);
     } catch (dbErr) {
-      console.warn("Database lookup failed, falling back to mock authentication:", dbErr.message);
+      console.warn("Database lookup failed, falling back to offline authentication:", dbErr.message);
       isOffline = true;
     }
 
-    // Fallback if DB is offline or lookup failed
-    if (isOffline || !user) {
-      const emailLower = email.toLowerCase();
+    // DB is offline — use in-memory store only
+    if (isOffline) {
+      console.log("Login offline mode. Checking against", OFFLINE_USERS.length, "offline users for:", emailLower);
       const offlineUser = OFFLINE_USERS.find(
         (u) => u.email.toLowerCase() === emailLower && u.password === password
       );
@@ -117,7 +119,7 @@ export const loginuser = async (req, res, next) => {
         return res.status(200).json({
           success: true,
           sucess: true,
-          message: "User logged in successfully (Offline Fallback)",
+          message: "User logged in successfully",
           token: generateToken(offlineUser.id),
           user: {
             id: offlineUser.id,
@@ -126,16 +128,36 @@ export const loginuser = async (req, res, next) => {
             role: offlineUser.role,
           },
         });
-      } else {
-        return res.status(200).json({
-          success: false,
-          sucess: false,
-          message: "Invalid email or password (Offline Fallback)",
-        });
       }
+
+      return res.status(200).json({
+        success: false,
+        sucess: false,
+        message: "Invalid email or password",
+      });
     }
 
+    // DB is online — check the real DB result
     if (!user) {
+      // DB user not found — also check offline store (in case they registered offline)
+      const offlineUser = OFFLINE_USERS.find(
+        (u) => u.email.toLowerCase() === emailLower && u.password === password
+      );
+      if (offlineUser) {
+        return res.status(200).json({
+          success: true,
+          sucess: true,
+          message: "User logged in successfully",
+          token: generateToken(offlineUser.id),
+          user: {
+            id: offlineUser.id,
+            name: offlineUser.name,
+            email: offlineUser.email,
+            role: offlineUser.role,
+          },
+        });
+      }
+
       return res.status(200).json({
         success: false,
         sucess: false,
