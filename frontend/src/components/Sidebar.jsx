@@ -7,6 +7,7 @@ const NAV = [
   { label: "Guest Requests", href: "/requests" },
   { label: "Housekeeping", href: "/housekeeping" },
   { label: "Financial Reports", href: "/reports" },
+  { label: "Settings", href: "/settings" },
 ];
 
 export default function Sidebar() {

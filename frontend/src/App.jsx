@@ -4,6 +4,9 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Register from "./pages/Register";
+import CheckIn from "./pages/CheckIn";
+import Housekeeping from "./pages/Housekeeping";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -15,6 +18,30 @@ function App() {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/check-ins"
+        element={
+          <ProtectedRoute>
+            <CheckIn />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/housekeeping"
+        element={
+          <ProtectedRoute>
+            <Housekeeping />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <Settings />
           </ProtectedRoute>
         }
       />
