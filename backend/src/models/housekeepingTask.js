@@ -34,4 +34,4 @@ const houseKeepingTaskSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("HouseKeepingTask", houseKeepingTaskSchema);
+export default mongoose.models.HouseKeepingTask || mongoose.model("HouseKeepingTask", houseKeepingTaskSchema);

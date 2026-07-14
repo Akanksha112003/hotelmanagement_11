@@ -18,4 +18,6 @@ const hotelSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-export default mongoose.model("Hotel", hotelSchema);
+
+const Hotel = mongoose.models.Hotel || mongoose.model("Hotel", hotelSchema);
+export default Hotel;

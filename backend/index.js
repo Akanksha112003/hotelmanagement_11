@@ -23,6 +23,7 @@ import authRoute from "./src/routes/auth.js";
 import checkinRoute from "./src/routes/checkin.js";
 import housekeepingRoute from "./src/routes/housekeeping.js";
 import settingsRoute from "./src/routes/settings.js";
+import dashboardRoute from "./src/routes/dashboard.js";
 import { errorHandler, notFound } from "./src/middleWare/errorMiddleware.js";
 import { seedDatabase } from "./src/utils/seedDatabase.js";
 
@@ -56,6 +57,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/checkin", checkinRoute);
 app.use("/api/housekeeping", housekeepingRoute);
 app.use("/api/settings", settingsRoute);
+app.use("/api/dashboard", dashboardRoute);
 
 // Error handlers (must be last)
 app.use(notFound);

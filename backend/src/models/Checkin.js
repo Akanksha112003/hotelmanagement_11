@@ -58,6 +58,6 @@ const checkinSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Checkin = mongoose.model("Checkin", checkinSchema);
+const Checkin = mongoose.models.Checkin || mongoose.model("Checkin", checkinSchema);
 
 export default Checkin;
