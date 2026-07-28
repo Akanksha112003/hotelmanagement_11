@@ -2,10 +2,13 @@ import { useLocation, Link } from "react-router-dom";
 
 const NAV = [
   { label: "Dashboard Overview", href: "/dashboard" },
+  { label: "Room Management", href: "/rooms" },
   { label: "Reservations", href: "/reservations" },
   { label: "Check-Ins", href: "/check-ins" },
   { label: "Guest Requests", href: "/requests" },
   { label: "Housekeeping", href: "/housekeeping" },
+  { label: "Food Orders", href: "/food-orders" },
+  { label: "Checkout", href: "/checkout" },
   { label: "Financial Reports", href: "/reports" },
   { label: "Settings", href: "/settings" },
 ];

@@ -6,6 +6,9 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import Register from "./pages/Register";
 import CheckIn from "./pages/CheckIn";
 import Housekeeping from "./pages/Housekeeping";
+import FoodOrder from "./pages/FoodOrder";
+import Checkout from "./pages/Checkout";
+import RoomManagement from "./pages/RoomManagement";
 import Settings from "./pages/Settings";
 
 function App() {
@@ -34,6 +37,30 @@ function App() {
         element={
           <ProtectedRoute>
             <Housekeeping />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/food-orders"
+        element={
+          <ProtectedRoute>
+            <FoodOrder />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/rooms"
+        element={
+          <ProtectedRoute>
+            <RoomManagement />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/checkout"
+        element={
+          <ProtectedRoute>
+            <Checkout />
           </ProtectedRoute>
         }
       />

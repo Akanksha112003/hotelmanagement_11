@@ -3,5 +3,8 @@ export { apiRequest } from "./client";
 export * from "./auth.js";
 export * from "./Checkin.js";
 export * from "./housekeeping.js";
+export * from "./foodorder.js";
+export * from "./checkout.js";
+export * from "./room.js";
 export * from "./settings.js";
 export * from "./dashboard.js";

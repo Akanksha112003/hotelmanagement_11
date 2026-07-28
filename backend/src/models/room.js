@@ -13,9 +13,10 @@ const roomSchema = new mongoose.Schema(
     pricePerNight: { type: Number, required: true, min: 0 },
     status: {
       type: String,
-      enum: ["available", "occupied", "maintenance", "reserved"],
+      enum: ["available", "occupied", "maintenance", "reserved", "dirty"],
       default: "available",
     },
+    amenities: { type: [String], default: [] },
     description: { type: String, default: "" },
   },
   { timestamps: true }
