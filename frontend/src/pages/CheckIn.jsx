@@ -6,6 +6,8 @@ import {
   deleteCheckin,
   checkoutGuest,
   getRooms,
+  listGuests,
+  addNewGuest,
 } from "../api";
 
 const EMPTY_FORM = {
@@ -34,12 +36,24 @@ export default function CheckIn() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [availableRooms, setAvailableRooms] = useState([]);
+  const [existingGuests, setExistingGuests] = useState([]);
+  const [selectedGuestId, setSelectedGuestId] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
     fetchCheckins();
     fetchAvailableRooms();
+    fetchGuests();
   }, []);
+
+  async function fetchGuests() {
+    try {
+      const res = await listGuests();
+      setExistingGuests(res.data || res.guests || []);
+    } catch (gErr) {
+      console.warn("Could not load guests list for check-in dropdown:", gErr.message);
+    }
+  }
 
   async function fetchCheckins() {
     setFetching(true);
@@ -64,6 +78,24 @@ export default function CheckIn() {
     }
   }
 
+  function handleGuestSelect(e) {
+    const guestId = e.target.value;
+    setSelectedGuestId(guestId);
+    if (!guestId) return;
+
+    const guest = existingGuests.find((g) => g._id === guestId);
+    if (guest) {
+      setForm((prev) => ({
+        ...prev,
+        guestName: guest.fullName || "",
+        email: guest.email || "",
+        phone: guest.phone || "",
+        idProof: guest.idProofType || "nationalId",
+        idProofNumber: guest.idProofNumber || "",
+      }));
+    }
+  }
+
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -74,15 +106,30 @@ export default function CheckIn() {
     setError("");
     setLoading(true);
     try {
+      // Auto create guest if new guest
+      try {
+        await addNewGuest({
+          fullName: form.guestName,
+          email: form.email,
+          phone: String(form.phone),
+          idProofType: form.idProof || "nationalId",
+          idProofNumber: form.idProofNumber,
+        });
+      } catch {
+        // If guest already exists with this email/phone, ignore duplicate error
+      }
+
       await createCheckin({
         ...form,
         numberOfGuests: Number(form.numberOfGuests),
         status: "checked-in"
       });
       setForm(EMPTY_FORM);
+      setSelectedGuestId("");
       setShowForm(false);
       await fetchCheckins();
       await fetchAvailableRooms();
+      await fetchGuests();
     } catch (err) {
       setError(err.message);
     } finally {
@@ -166,6 +213,27 @@ export default function CheckIn() {
               </div>
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+                {/* Select Existing Guest Dropdown */}
+                {existingGuests.length > 0 && (
+                  <div className="bg-[#F8F7F4]/80 p-5 rounded-2xl border border-[#17384F]/10 flex flex-col gap-2">
+                    <label className="text-[12px] font-bold uppercase tracking-widest text-[#D9B77A]">
+                      Select Existing Guest (Auto-Fill Profile)
+                    </label>
+                    <select
+                      value={selectedGuestId}
+                      onChange={handleGuestSelect}
+                      className="w-full bg-white border border-[#17384F]/10 rounded-xl px-5 py-3 text-[#17384F] font-medium outline-none focus:border-[#D9B77A]"
+                    >
+                      <option value="">-- Create New Guest or Choose Existing --</option>
+                      {existingGuests.map((g) => (
+                        <option key={g._id} value={g._id}>
+                          {g.fullName} ({g.email} • {g.phone})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                   {/* Guest Name */}
                   <div className="flex flex-col gap-2">

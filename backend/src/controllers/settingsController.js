@@ -220,3 +220,65 @@ export const deleteUser = async (req, res, next) => {
     next(err);
   }
 };
+
+// ─── User Profile (my account) ──────────────────────────────────────────────
+
+export const getMyProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    res.json({ success: true, data: user });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateMyProfile = async (req, res, next) => {
+  try {
+    const { name, email, phone, profilePicture, preferences } = req.body;
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+
+    if (name !== undefined) user.name = name;
+    if (email !== undefined) user.email = email;
+    if (phone !== undefined) user.phone = phone;
+    if (profilePicture !== undefined) user.profilePicture = profilePicture;
+    if (preferences !== undefined) user.preferences = { ...user.preferences, ...preferences };
+
+    await user.save();
+    const updated = user.toObject();
+    delete updated.password;
+    res.json({ success: true, message: "Profile updated successfully", data: updated });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ─── Room Settings ──────────────────────────────────────────────────────────
+
+import RoomSettings from "../models/RoomSettings.js";
+
+export const getRoomSettings = async (req, res, next) => {
+  try {
+    let settings = await RoomSettings.findOne();
+    if (!settings) settings = await RoomSettings.create({});
+    res.json({ success: true, data: settings });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateRoomSettings = async (req, res, next) => {
+  try {
+    let settings = await RoomSettings.findOne();
+    if (!settings) {
+      settings = await RoomSettings.create(req.body);
+    } else {
+      Object.assign(settings, req.body);
+      await settings.save();
+    }
+    res.json({ success: true, message: "Room settings updated", data: settings });
+  } catch (err) {
+    next(err);
+  }
+};

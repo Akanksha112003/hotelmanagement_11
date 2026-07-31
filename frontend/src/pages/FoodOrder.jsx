@@ -51,7 +51,7 @@ export default function FoodOrder() {
       await fetchOrders();
     } catch (err) {
       setError(err.message);
-    } fontally: {
+    } finally {
       setLoading(false);
     }
   };

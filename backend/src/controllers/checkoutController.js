@@ -4,6 +4,9 @@ import Checkin from "../models/Checkin.js";
 import Room from "../models/room.js";
 import HouseKeepingTask from "../models/housekeepingTask.js";
 import FoodOrder from "../models/FoodOrder.js";
+import Guest from "../models/Guest.js";
+import Booking from "../models/Booking.js";
+import Invoice from "../models/Invoice.js";
 
 const ALLOWED_PAYMENT_METHODS = ["Cash", "Card", "UPI", "Bank Transfer"];
 const ALLOWED_PAYMENT_STATUSES = ["Pending", "Paid"];
@@ -153,6 +156,117 @@ export const createCheckout = async (req, res, next) => {
       });
     } catch (hErr) {
       console.warn("Could not auto-create Housekeeping task during checkout:", hErr.message);
+    }
+
+    // 4. Update matching Guest stats (totalVisits, totalSpent, lastStayDate)
+    try {
+      let checkinRec = null;
+      if (checkinId && mongoose.Types.ObjectId.isValid(checkinId)) {
+        checkinRec = await Checkin.findById(checkinId);
+      }
+      if (!checkinRec) {
+        checkinRec = await Checkin.findOne({ roomNumber: String(roomNumber).trim() }).sort({ createdAt: -1 });
+      }
+
+      let guestMatchQuery = null;
+      if (checkinRec) {
+        guestMatchQuery = {
+          $or: [
+            { email: checkinRec.email },
+            { phone: String(checkinRec.phone) },
+            { idProofNumber: checkinRec.idProofNumber },
+            { fullName: new RegExp(`^${checkinRec.guestName}$`, "i") }
+          ]
+        };
+      } else {
+        guestMatchQuery = { fullName: new RegExp(`^${String(guestName).trim()}$`, "i") };
+      }
+
+      const matchingGuest = await Guest.findOne(guestMatchQuery);
+      if (matchingGuest) {
+        await Guest.findByIdAndUpdate(matchingGuest._id, {
+          $inc: { totalVisits: 1, totalSpent: totalAmount },
+          $set: { lastStayDate: checkout.checkOutDate || new Date() }
+        });
+      }
+    } catch (gErr) {
+      console.warn("Could not update Guest stats during checkout:", gErr.message);
+    }
+
+    // 5. Update active Booking status to "Completed"
+    let matchedBookingObj = null;
+    try {
+      const activeBooking = await Booking.findOne({
+        bookingStatus: { $in: ["Checked-In", "Confirmed"] },
+      }).populate("room");
+
+      if (activeBooking && activeBooking.room && activeBooking.room.roomNumber === String(roomNumber).trim()) {
+        await Booking.findByIdAndUpdate(activeBooking._id, { bookingStatus: "Completed" });
+        matchedBookingObj = activeBooking;
+      }
+    } catch (bErr) {
+      console.warn("Could not update Booking status during checkout:", bErr.message);
+    }
+
+    // 6. Automatically generate Invoice for this checkout
+    try {
+      const existingInv = await Invoice.findOne({ checkout: checkout._id });
+      if (!existingInv) {
+        const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+        const prefix = `INV-${dateStr}-`;
+        const countToday = await Invoice.countDocuments({ invoiceNumber: new RegExp(`^${prefix}`) });
+        const invoiceNumber = `${prefix}${String(countToday + 1).padStart(4, "0")}`;
+
+        const roomObj = await Room.findOne({ roomNumber: String(roomNumber).trim() });
+        const guestObj = await Guest.findOne(guestMatchQuery);
+
+        const sub = (roomCharges || 0) + (foodCharges || 0) + (extraCharges || 0);
+        const disc = discount || 0;
+        const taxable = Math.max(0, sub - disc);
+        const taxVal = Number((taxable * 0.12).toFixed(2));
+        const finalTot = Number((taxable + taxVal).toFixed(2));
+
+        const paidVal = payStatus === "Paid" ? finalTot : 0;
+        const balVal = Math.max(0, finalTot - paidVal);
+
+        const paymentsList = [];
+        if (paidVal > 0) {
+          paymentsList.push({
+            amount: paidVal,
+            paymentMethod: method,
+            paidAt: new Date(),
+            remarks: "Payment collected upon Checkout",
+          });
+        }
+
+        if (guestObj) {
+          await Invoice.create({
+            invoiceNumber,
+            guest: guestObj._id,
+            booking: matchedBookingObj ? matchedBookingObj._id : null,
+            checkout: checkout._id,
+            room: roomObj ? roomObj._id : null,
+            roomCharges: roomCharges || 0,
+            foodCharges: foodCharges || 0,
+            extraCharges: extraCharges || 0,
+            discount: disc,
+            taxPercentage: 12,
+            taxAmount: taxVal,
+            subtotal: sub,
+            totalAmount: finalTot,
+            paymentMethod: method,
+            paymentStatus: payStatus === "Paid" ? "Paid" : "Pending",
+            amountPaid: paidVal,
+            balanceAmount: balVal,
+            invoiceStatus: payStatus === "Paid" ? "Paid" : "Issued",
+            payments: paymentsList,
+            remarks: remarks ? String(remarks).trim() : "Auto-generated invoice from checkout",
+            issuedAt: new Date(),
+          });
+        }
+      }
+    } catch (iErr) {
+      console.warn("Could not auto-generate Invoice during checkout:", iErr.message);
     }
 
     return res.status(201).json({

@@ -8,3 +8,8 @@ export * from "./checkout.js";
 export * from "./room.js";
 export * from "./settings.js";
 export * from "./dashboard.js";
+export * from "./guest.js";
+export * from "./booking.js";
+export * from "./invoice.js";
+export * from "./report.js";
+export * from "./hotelProfile.js";

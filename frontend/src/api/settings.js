@@ -1,6 +1,6 @@
 import { apiRequest } from "./client";
 
-// Hotel profile
+// Hotel profile (Settings page)
 export const getHotelProfile = () => apiRequest("/settings/hotel");
 export const updateHotelProfile = (data) =>
   apiRequest("/settings/hotel", { method: "PUT", body: data });
@@ -12,7 +12,12 @@ export const addRoom = (data) =>
 export const deleteRoom = (id) =>
   apiRequest(`/settings/rooms/${id}`, { method: "DELETE" });
 
-// Users
+// Room Configuration Settings
+export const getRoomSettings = () => apiRequest("/settings/room-settings");
+export const updateRoomSettings = (data) =>
+  apiRequest("/settings/room-settings", { method: "PUT", body: data });
+
+// Users / Staff
 export const getUsers = () => apiRequest("/settings/users");
 export const addUser = (data) =>
   apiRequest("/settings/users", { method: "POST", body: data });
@@ -20,6 +25,11 @@ export const updateUserRole = (id, role) =>
   apiRequest(`/settings/users/${id}/role`, { method: "PATCH", body: { role } });
 export const deleteUser = (id) =>
   apiRequest(`/settings/users/${id}`, { method: "DELETE" });
+
+// My Profile (logged-in user)
+export const getMyProfile = () => apiRequest("/settings/me");
+export const updateMyProfile = (data) =>
+  apiRequest("/settings/me", { method: "PUT", body: data });
 
 // Change password
 export const changePassword = (data) =>

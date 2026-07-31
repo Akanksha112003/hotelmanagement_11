@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../api";
-import { saveAuth } from "../utils/auth";
+import { saveAuth, isAuthenticated } from "../utils/auth";
 
 export default function Register() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate]);
   const [name,            setName]            = useState("");
   const [email,           setEmail]           = useState("");
   const [password,        setPassword]        = useState("");

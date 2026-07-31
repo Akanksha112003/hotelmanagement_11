@@ -28,6 +28,21 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    phone: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    profilePicture: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    preferences: {
+      emailNotifications: { type: Boolean, default: true },
+      smsAlerts: { type: Boolean, default: false },
+      darkMode: { type: Boolean, default: false },
+    },
   },
   { timestamps: true }
 );

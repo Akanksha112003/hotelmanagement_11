@@ -27,6 +27,11 @@ import dashboardRoute from "./src/routes/dashboard.js";
 import foodorderRoutes from "./src/routes/foodorderRoutes.js";
 import checkoutRoutes from "./src/routes/checkoutRoutes.js";
 import roomRoutes from "./src/routes/roomRoutes.js";
+import guestRoutes from "./src/routes/guestRoutes.js";
+import bookingRoutes from "./src/routes/bookingRoutes.js";
+import invoiceRoutes from "./src/routes/invoiceRoutes.js";
+import reportRoutes from "./src/routes/reportRoutes.js";
+import hotelProfileRoutes from "./src/routes/hotelProfileRoutes.js";
 import { errorHandler, notFound } from "./src/middleWare/errorMiddleware.js";
 import { seedDatabase } from "./src/utils/seedDatabase.js";
 
@@ -64,6 +69,11 @@ app.use("/api/dashboard", dashboardRoute);
 app.use("/api/foodorders", foodorderRoutes);
 app.use("/api/checkout", checkoutRoutes);
 app.use("/api/rooms", roomRoutes);
+app.use("/api/guests", guestRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/invoices", invoiceRoutes);
+app.use("/api/reports", reportRoutes);
+app.use("/api/hotel-profile", hotelProfileRoutes);
 
 // Error handlers (must be last)
 app.use(notFound);

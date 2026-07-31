@@ -1,6 +1,7 @@
 import { apiRequest } from "./client";
 
 export const getCheckouts = () => apiRequest("/checkout");
+export const listCheckouts = getCheckouts;
 
 export const createCheckout = (data) =>
   apiRequest("/checkout", { method: "POST", body: data });
