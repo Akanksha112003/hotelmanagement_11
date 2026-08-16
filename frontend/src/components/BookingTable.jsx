@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Eye, Edit2, Trash2, ChevronLeft, ChevronRight, CheckCircle2, XCircle, AlertTriangle, Calendar } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Eye, Edit2, Trash2, ChevronLeft, ChevronRight, CheckCircle2, XCircle, AlertTriangle, Calendar, CreditCard } from "lucide-react";
 import BookingStatusBadge from "./BookingStatusBadge";
 
 const thCls =
@@ -155,6 +156,8 @@ export default function BookingTable({
                             <span className="hidden xl:inline">Check-In</span>
                           </button>
                         )}
+
+
 
                         {/* View Details */}
                         <button

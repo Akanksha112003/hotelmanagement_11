@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Eye, Edit2, Trash2, ChevronLeft, ChevronRight, CreditCard, AlertTriangle, FileText, Lock } from "lucide-react";
 import InvoiceStatusBadge from "./InvoiceStatusBadge";
 
@@ -166,11 +167,11 @@ export default function InvoiceTable({
                         {inv.balanceAmount > 0 && inv.invoiceStatus !== "Cancelled" && (
                           <button
                             onClick={() => onRecordPayment(inv)}
-                            title="Record Payment"
-                            className="p-2 rounded-lg text-emerald-700 hover:bg-emerald-50 transition-all flex items-center gap-1 font-bold text-xs"
+                            title="Record Payment directly"
+                            className="p-2 rounded-lg text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/60 transition-all flex items-center gap-1 font-bold text-xs cursor-pointer"
                           >
                             <CreditCard className="w-4 h-4" />
-                            <span className="hidden xl:inline">Pay</span>
+                            <span className="hidden xl:inline">Record Payment</span>
                           </button>
                         )}
 

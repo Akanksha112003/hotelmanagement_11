@@ -6,7 +6,6 @@ const NAV = [
   { label: "Guest Management", href: "/guests" },
   { label: "Reservations", href: "/bookings" },
   { label: "Check-Ins", href: "/check-ins" },
-  { label: "Guest Requests", href: "/requests" },
   { label: "Housekeeping", href: "/housekeeping" },
   { label: "Food Orders", href: "/food-orders" },
   { label: "Checkout", href: "/checkout" },
@@ -15,7 +14,6 @@ const NAV = [
   { label: "Hotel Profile", href: "/hotel-profile" },
   { label: "Room Settings", href: "/room-settings" },
   { label: "My Profile", href: "/profile" },
-  { label: "Change Password", href: "/change-password" },
   { label: "Settings", href: "/settings" },
 ];
 
@@ -23,39 +21,38 @@ export default function Sidebar() {
   const location = useLocation();
 
   return (
-    <aside className="w-[320px] hidden lg:block shrink-0 bg-[#17384F] border-r border-white/5 relative z-40 shadow-[4px_0_24px_rgba(23,56,79,0.05)]">
-      <div className="sticky top-[88px] h-[calc(100vh-88px)] flex flex-col pt-12 pb-8 overflow-y-auto">
-        <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#D9B77A] mb-8 px-12">
+    <aside className="w-[280px] hidden lg:block shrink-0 bg-[#263B32] border-r border-[#263B32]/80 relative z-40">
+      <div className="sticky top-[80px] h-[calc(100vh-80px)] flex flex-col pt-8 pb-6 overflow-y-auto">
+        <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#A38A5A] mb-6 px-8">
           Main Navigation
         </p>
-        <nav className="flex flex-col gap-3 px-8">
+        <nav className="flex flex-col gap-1.5 px-5">
           {NAV.map((item) => {
             const isActive = location.pathname === item.href || (item.href === "/dashboard" && location.pathname === "/");
             return (
               <Link
                 key={item.href}
                 to={item.href}
-                className={`relative px-6 py-4 rounded-xl text-[14px] font-bold tracking-wide transition-all duration-300 ease-out flex items-center group ${
+                className={`relative px-5 py-3 rounded-md text-[13px] font-medium tracking-wide transition-all duration-200 flex items-center group ${
                   isActive
-                    ? "bg-[#D9B77A] text-[#17384F] shadow-lg shadow-[#D9B77A]/20 translate-x-2"
-                    : "text-white/60 hover:bg-white/5 hover:text-white"
+                    ? "bg-[#A38A5A] text-white font-semibold shadow-sm"
+                    : "text-white/70 hover:bg-white/5 hover:text-white"
                 }`}
               >
-                <span className={`w-1.5 h-1.5 rounded-full mr-4 transition-colors ${isActive ? "bg-[#17384F]" : "bg-transparent group-hover:bg-[#D9B77A]"}`}></span>
+                <span className={`w-1.5 h-1.5 rounded-full mr-3.5 transition-colors ${isActive ? "bg-white" : "bg-transparent group-hover:bg-[#A38A5A]"}`}></span>
                 {item.label}
               </Link>
             );
           })}
         </nav>
 
-        <div className="mt-auto px-8 pt-12">
-          <div className="bg-[#1E6F8E]/20 border border-[#1E6F8E]/30 rounded-2xl p-6 text-center">
-            <p className="text-[#D9B77A] font-bold text-xs uppercase tracking-widest mb-2">Need Help?</p>
-            <p className="text-white/70 text-xs leading-relaxed">Contact IT support for dashboard assistance.</p>
+        <div className="mt-auto px-5 pt-8">
+          <div className="bg-[#FFFFFF]/5 border border-[#A38A5A]/20 rounded-lg p-5 text-center">
+            <p className="text-[#A38A5A] font-semibold text-[11px] uppercase tracking-widest mb-1.5">Grand Concierge</p>
+            <p className="text-white/60 text-[11px] leading-relaxed">The Aurelia Grand Management System v2.5</p>
           </div>
         </div>
       </div>
     </aside>
   );
 }
-

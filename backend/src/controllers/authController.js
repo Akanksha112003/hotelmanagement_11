@@ -190,3 +190,50 @@ export const loginuser = async (req, res, next) => {
     next(err);
   }
 };
+
+export const forgotPassword = async (req, res, next) => {
+  try {
+    const { email, newPassword } = req.body;
+    if (!email || !newPassword) {
+      return res.status(400).json({ success: false, message: "Please provide email and new password" });
+    }
+    if (newPassword.length < 6) {
+      return res.status(400).json({ success: false, message: "Password must be at least 6 characters long" });
+    }
+
+    const emailLower = email.trim().toLowerCase();
+    let user = null;
+    let isOffline = false;
+
+    try {
+      user = await User.findOne({ email: emailLower }).maxTimeMS(5000);
+    } catch (dbErr) {
+      isOffline = true;
+    }
+
+    if (isOffline) {
+      const idx = OFFLINE_USERS.findIndex((u) => u.email.toLowerCase() === emailLower);
+      if (idx === -1) {
+        return res.status(404).json({ success: false, message: "No account found with this email" });
+      }
+      OFFLINE_USERS[idx].password = newPassword;
+      return res.status(200).json({ success: true, message: "Password reset successful" });
+    }
+
+    if (!user) {
+      // Also check offline store
+      const idx = OFFLINE_USERS.findIndex((u) => u.email.toLowerCase() === emailLower);
+      if (idx !== -1) {
+        OFFLINE_USERS[idx].password = newPassword;
+        return res.status(200).json({ success: true, message: "Password reset successful" });
+      }
+      return res.status(404).json({ success: false, message: "No account found with this email" });
+    }
+
+    user.password = newPassword;
+    await user.save();
+    return res.status(200).json({ success: true, message: "Password reset successful" });
+  } catch (err) {
+    next(err);
+  }
+};

@@ -107,6 +107,12 @@ export default function UserProfile() {
   const handlePhotoFile = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    if (file.size > 1.5 * 1024 * 1024) {
+      setError("Profile picture size exceeds the 1.5 MB limit.");
+      showToast("error", "Profile picture size exceeds the 1.5 MB limit.");
+      return;
+    }
+    setError("");
     const reader = new FileReader();
     reader.onloadend = () => {
       handleChange("profilePicture", reader.result);

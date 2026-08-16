@@ -24,3 +24,15 @@ export function register({ name, email, password }) {
     body: { name, email, password },
   });
 }
+
+/**
+ * Reset password for a registered user (no token required).
+ * @param {{ email: string, newPassword: string }} payload
+ * @returns {Promise<{ success: boolean, message: string }>}
+ */
+export function forgotPassword({ email, newPassword }) {
+  return apiRequest("/auth/forgot-password", {
+    method: "POST",
+    body: { email, newPassword },
+  });
+}

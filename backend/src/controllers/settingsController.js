@@ -239,6 +239,10 @@ export const updateMyProfile = async (req, res, next) => {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
+    if (profilePicture && profilePicture.length > 2 * 1024 * 1024) {
+      return res.status(400).json({ success: false, message: "Profile picture size exceeds the 1.5 MB limit." });
+    }
+
     if (name !== undefined) user.name = name;
     if (email !== undefined) user.email = email;
     if (phone !== undefined) user.phone = phone;

@@ -1,6 +1,8 @@
 import PaymentStatusBadge from "./PaymentStatusBadge";
 import InvoiceCard from "./InvoiceCard";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { CreditCard } from "lucide-react";
 
 const thCls = "px-6 py-5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#17384F]/50";
 const PAYMENT_STATUSES = ["Pending", "Paid"];

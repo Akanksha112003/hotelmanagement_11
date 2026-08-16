@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { CreditCard } from "lucide-react";
 import OrderStatusBadge from "./OrderStatusBadge";
 import PaymentStatusBadge from "./PaymentStatusBadge";
 
@@ -146,7 +148,8 @@ export default function FoodOrderTable({
                   </td>
 
                   {/* Actions */}
-                  <td className="px-6 py-5 text-right">
+                  <td className="px-6 py-5 text-right space-x-2">
+
                     <button
                       onClick={() => onDeleteOrder(order._id)}
                       className="text-[11px] font-bold uppercase tracking-wider text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 px-3 py-1.5 rounded-lg transition-all"

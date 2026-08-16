@@ -99,31 +99,27 @@ export default function Dashboard() {
       <div className="flex flex-col gap-8 pb-10">
 
         {/* ─── HERO HEADER ─────────────────────────────────────────────── */}
-        <div className="bg-[#17384F] rounded-3xl p-10 lg:p-14 shadow-[0_8px_40px_rgb(23,56,79,0.15)] relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-          {/* Decorative blobs */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-[#D9B77A]/10 rounded-full blur-3xl -translate-y-1/3 translate-x-1/3 pointer-events-none" />
-          <div className="absolute bottom-0 left-1/2 w-64 h-64 bg-[#1E6F8E]/20 rounded-full blur-3xl translate-y-1/2 pointer-events-none" />
-
-          <div className="relative z-10 flex flex-col gap-3">
-            <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-[#D9B77A]">
-              Azure Coast Grand Hotel
+        <div className="bg-[#263B32] rounded-xl p-8 lg:p-10 shadow-sm border border-[#263B32]/80 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 text-white">
+          <div className="flex flex-col gap-2">
+            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#A38A5A]">
+              THE AURELIA GRAND
             </p>
-            <h1 className="text-[36px] md:text-[48px] font-light text-white font-display tracking-tight leading-tight">
-              {getGreeting()}, <span className="font-semibold">{displayName}</span>
+            <h1 className="text-[32px] md:text-[40px] font-normal font-display tracking-tight leading-tight">
+              {getGreeting()}, <span className="font-medium">{displayName}</span>
             </h1>
-            <p className="text-[17px] text-white/60 font-medium max-w-xl leading-relaxed">
-              Operations Center is online. Here's a snapshot of today's activities.
+            <p className="text-[15px] text-white/70 font-sans max-w-xl leading-relaxed">
+              Executive Management Portal. Snapshot of property operations and today's schedule.
             </p>
           </div>
 
-          <div className="relative z-10 flex flex-col items-end text-right bg-white/5 backdrop-blur-sm px-8 py-6 rounded-2xl border border-white/10">
-            <span className="text-[13px] font-bold uppercase tracking-[0.2em] text-[#D9B77A] mb-2">{formattedDate}</span>
-            <span className="text-[32px] md:text-[42px] font-bold text-white tracking-tighter leading-none font-display">
+          <div className="flex flex-col items-end text-right bg-white/5 px-6 py-4 rounded-lg border border-white/10 shrink-0">
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#A38A5A] mb-1">{formattedDate}</span>
+            <span className="text-[28px] md:text-[34px] font-bold text-white tracking-tight leading-none font-display">
               {formattedTime}
             </span>
             <button
               onClick={() => setRefreshKey((k) => k + 1)}
-              className="mt-4 flex items-center gap-2 text-white/50 hover:text-[#D9B77A] text-xs font-bold uppercase tracking-widest transition-all"
+              className="mt-3 flex items-center gap-2 text-white/60 hover:text-[#A38A5A] text-[11px] font-semibold uppercase tracking-wider transition-all"
             >
               <RefreshCcw className="w-3.5 h-3.5" /> Refresh Data
             </button>
@@ -230,23 +226,23 @@ export default function Dashboard() {
           <div className="flex flex-col gap-8">
 
             {/* Quick Actions */}
-            <div className="bg-[#17384F] rounded-3xl p-6 shadow-[0_8px_30px_rgb(23,56,79,0.10)] border border-white/5">
-              <h3 className="text-[18px] font-bold text-white font-display mb-6">Quick Actions</h3>
-              <div className="flex flex-col gap-3">
+            <div className="bg-[#263B32] rounded-xl p-6 shadow-sm border border-[#263B32]/80">
+              <h3 className="text-[18px] font-bold text-white font-display mb-5">Quick Actions</h3>
+              <div className="flex flex-col gap-2.5">
                 {QUICK_ACTIONS.map((qa) => (
                   <Link
                     key={qa.href}
                     to={qa.href}
-                    className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-[#D9B77A]/40 transition-all group"
+                    className="flex items-center gap-4 p-3.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-[#A38A5A]/40 transition-all group"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#D9B77A]/20 transition-all">
-                      <qa.icon className="w-5 h-5 text-[#D9B77A]" />
+                    <div className="w-9 h-9 rounded-md bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#A38A5A]/20 transition-all">
+                      <qa.icon className="w-4 h-4 text-[#A38A5A]" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-bold text-white">{qa.label}</p>
-                      <p className="text-xs text-white/50">{qa.sub}</p>
+                      <p className="text-xs font-bold text-white">{qa.label}</p>
+                      <p className="text-[11px] text-white/50">{qa.sub}</p>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-white/30 group-hover:text-[#D9B77A] transition-all" />
+                    <ArrowRight className="w-3.5 h-3.5 text-white/30 group-hover:text-[#A38A5A] transition-all" />
                   </Link>
                 ))}
               </div>

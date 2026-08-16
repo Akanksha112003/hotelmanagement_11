@@ -4,23 +4,23 @@ import { getHotelProfileDoc } from "../api/hotelProfile";
 const HotelProfileContext = createContext();
 
 export const DEFAULT_HOTEL_PROFILE = {
-  name: "Azure Coast Resort & Spa",
+  name: "THE AURELIA GRAND",
   logo: "",
-  address: "100 Hospitality Blvd, Ocean View Drive",
-  city: "Miami",
-  state: "Florida",
-  country: "United States",
-  zipCode: "33139",
-  phone: "+1 (800) 555-HOTEL",
-  email: "contact@azurecoastresort.com",
-  website: "https://azurecoastresort.com",
-  taxNumber: "TX-882901",
-  currency: "USD",
-  timeZone: "America/New_York",
+  address: "100 Hospitality Blvd, Heritage Precinct",
+  city: "New Delhi",
+  state: "Delhi",
+  country: "India",
+  zipCode: "110001",
+  phone: "+91 (11) 2345-6789",
+  email: "concierge@aureliagrand.com",
+  website: "https://aureliagrand.com",
+  taxNumber: "GSTIN-07AABCT8829Q1Z5",
+  currency: "INR",
+  timeZone: "Asia/Kolkata",
   checkInTime: "14:00",
   checkOutTime: "12:00",
   description:
-    "Luxury seaside hotel and resort offering premium guest accommodations, world-class amenities, and executive hospitality management.",
+    "Classic Hospitality. Modern Excellence. The Aurelia Grand provides luxury guest accommodations, heritage hospitality, and executive management.",
   socialMedia: { facebook: "", instagram: "", twitter: "", linkedin: "" },
 };
 

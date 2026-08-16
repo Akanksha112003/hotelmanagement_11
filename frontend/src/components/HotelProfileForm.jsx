@@ -118,7 +118,7 @@ export default function HotelProfileForm({ profileData, onSave, saving, error })
               required
               value={form.name || ""}
               onChange={handleChange}
-              placeholder="e.g. Azure Coast Resort & Spa"
+              placeholder="e.g. THE AURELIA GRAND"
               className={inputCls}
             />
           </div>

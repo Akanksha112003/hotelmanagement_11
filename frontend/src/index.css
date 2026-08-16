@@ -1,308 +1,171 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────
-   AZURE COAST GRAND — Design Tokens
+   THE AURELIA GRAND — Design System Tokens
+   Grand Green Classic Luxury Theme
    ───────────────────────────────────────── */
 @theme {
-  /* Azure Coast Collection Palette */
-  --acg-ocean-blue:     #1E6F8E;    /* Primary ocean */
-  --acg-navy-dark:      #17384F;    /* Deep coastal navy */
-  --acg-champagne:      #D9B77A;    /* Champagne gold accent */
-  --acg-ivory:          #F8F7F4;    /* Soft ivory background */
-  --acg-sea-glass:      #EAF4F6;    /* Light sea glass */
-  --acg-white:          #FFFFFF;    /* Pure white */
-  --acg-charcoal:       #1C1C1E;    /* For auth pages */
-  --acg-charcoal-light: #2C2C2E;
+  --color-forest-green:  #263B32;  /* Primary / Sidebar background */
+  --color-warm-ivory:    #F5F1E8;  /* Main background */
+  --color-walnut:        #4A3529;  /* Secondary accents */
+  --color-muted-brass:   #A38A5A;  /* Buttons / Highlights */
+  --color-sage:          #78806B;  /* Secondary elements */
+  --color-charcoal:      #292824;  /* Primary text */
+  --color-pure-white:    #FFFFFF;  /* Cards / Surfaces */
 
-  /* Tailwind color names */
-  --color-primary: var(--acg-ocean-blue);
-  --color-secondary: var(--acg-navy-dark);
-  --color-accent: var(--acg-champagne);
-  --color-ivory: var(--acg-ivory);
-  --color-seaglass: var(--acg-sea-glass);
-  --color-charcoal: var(--acg-charcoal);
-  --color-charcoal-light: var(--acg-charcoal-light);
-  
+  /* Semantic Tailwind Mapping */
+  --color-primary:       var(--color-forest-green);
+  --color-secondary:     var(--color-walnut);
+  --color-accent:        var(--color-muted-brass);
+  --color-ivory:         var(--color-warm-ivory);
+  --color-surface:       var(--color-pure-white);
+
   /* Typography */
-  --font-display: "Playfair Display", Georgia, serif;
-  --font-sans:    "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-display: "Cinzel", "Playfair Display", Georgia, serif;
+  --font-sans:    "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 }
 
 /* ─────────────────────────────────────────
-   Reset & Base
+   Reset & Base Styles
    ───────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 html, body, #root {
   width: 100%;
+  min-height: 100vh;
 }
 
 body {
   font-family: var(--font-sans);
-  background: var(--acg-sea-glass);
-  color: var(--acg-navy-dark);
+  background-color: #F5F1E8;
+  color: #292824;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* ─────────────────────────────────────────
-   Keyframe Animations
+   Classic Luxury Utility Classes
    ───────────────────────────────────────── */
-@keyframes acg-fade-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+.aurelia-card {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(38, 59, 50, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(41, 40, 36, 0.04);
+  transition: all 0.2s ease-in-out;
 }
 
-@keyframes acg-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+.aurelia-card-hover:hover {
+  border-color: rgba(163, 138, 90, 0.3);
+  box-shadow: 0 6px 24px rgba(38, 59, 50, 0.08);
 }
 
-@keyframes float-1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-@keyframes float-2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-@keyframes float-3 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-@keyframes float-4 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-
-@keyframes modal-scale-up {
-  from { opacity: 0; transform: scale(0.92) translateY(15px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-/* ─────────────────────────────────────────
-   Animation Classes
-   ───────────────────────────────────────── */
-.acg-anim-fade-up  { animation: acg-fade-up  0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.acg-anim-fade-in  { animation: acg-fade-in  0.8s ease both; }
-
-.acg-float-1 { animation: float-1 6s ease-in-out infinite; }
-.acg-float-2 { animation: float-2 5s ease-in-out infinite; }
-.acg-float-3 { animation: float-3 7s ease-in-out infinite; }
-.acg-float-4 { animation: float-4 5.5s ease-in-out infinite; }
-
-.acg-d-100 { animation-delay: 0.10s; }
-.acg-d-200 { animation-delay: 0.20s; }
-.acg-d-300 { animation-delay: 0.30s; }
-.acg-d-400 { animation-delay: 0.40s; }
-.acg-d-500 { animation-delay: 0.50s; }
-.acg-d-600 { animation-delay: 0.60s; }
-.acg-d-700 { animation-delay: 0.70s; }
-
-/* ─────────────────────────────────────────
-   Left Hero Background Overlay & Layout
-   ───────────────────────────────────────── */
-.acg-left-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(8, 15, 25, 0.82) 0%,
-    rgba(8, 15, 25, 0.55) 40%,
-    rgba(8, 15, 25, 0.10) 100%
-  );
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* 4 Feature Glass Cards Grid */
-.acg-feature-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  width: 100%;
-  max-width: 520px;
-  z-index: 10;
-}
-
-.acg-feature-card {
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.10);
-  border-radius: 16px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.aurelia-btn-primary {
+  background-color: #A38A5A;
   color: #FFFFFF;
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
   cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.acg-feature-card:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.30);
-  transform: translateY(-4px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+.aurelia-btn-primary:hover {
+  background-color: #8C7447;
+  box-shadow: 0 4px 12px rgba(163, 138, 90, 0.25);
 }
 
-/* ─────────────────────────────────────────
-   Premium Glass Card (Right Side Auth Panel)
-   ───────────────────────────────────────── */
-.acg-glass-card {
-  position: relative;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
-  border-radius: 32px;
-  overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+.aurelia-btn-secondary {
+  background-color: #263B32;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.acg-glass-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 32px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.03) 40%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
+.aurelia-btn-secondary:hover {
+  background-color: #1c2c25;
 }
 
-.acg-glass-card::after {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  border-radius: 31px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  pointer-events: none;
-  z-index: 1;
+.aurelia-btn-outline {
+  background-color: transparent;
+  color: #263B32;
+  border: 1px solid rgba(38, 59, 50, 0.2);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-/* ─────────────────────────────────────────
-   Form Inputs
-   ───────────────────────────────────────── */
-.acg-input {
+.aurelia-btn-outline:hover {
+  background-color: rgba(38, 59, 50, 0.05);
+  border-color: #263B32;
+}
+
+.aurelia-input {
   width: 100%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 12px;
-  color: var(--acg-white);
+  background-color: #FFFFFF;
+  border: 1px solid rgba(38, 59, 50, 0.15);
+  border-radius: 8px;
+  color: #292824;
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
-  padding: 14px 18px;
+  padding: 12px 16px;
   outline: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.acg-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.acg-input:focus {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+.aurelia-input:focus {
+  border-color: #A38A5A;
+  box-shadow: 0 0 0 3px rgba(163, 138, 90, 0.15);
 }
 
 /* ─────────────────────────────────────────
-   Buttons (Luxury Ocean Teal/Champagne)
-   ───────────────────────────────────────── */
-.acg-btn {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  background: linear-gradient(135deg, var(--acg-ocean-blue) 0%, var(--acg-navy-dark) 100%);
-  border: none;
-  border-radius: 12px;
-  color: #fff;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  padding: 16px 24px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 24px rgba(30, 111, 142, 0.25);
-}
-
-.acg-btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.acg-btn:hover { 
-  box-shadow: 0 12px 32px rgba(31, 122, 140, 0.4);
-  transform: translateY(-2px);
-}
-.acg-btn:hover::after { opacity: 1; }
-.acg-btn:active { transform: translateY(0); }
-
-.acg-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-/* ─────────────────────────────────────────
-   Glassmorphism Success Modal
-   ───────────────────────────────────────── */
-.acg-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(8, 15, 25, 0.62);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: acg-fade-in 0.3s ease forwards;
-}
-
-.acg-modal {
-  position: relative;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
-  border-radius: 28px;
-  padding: 40px;
-  max-width: 440px;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  animation: modal-scale-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.acg-modal::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 28px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-/* ─────────────────────────────────────────
-   Custom Premium Scrollbar
+   Custom Scrollbar
    ───────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #F5F1E8;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(30, 111, 142, 0.15);
-  border-radius: 99px;
+  background: rgba(38, 59, 50, 0.25);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(30, 111, 142, 0.3);
+  background: rgba(38, 59, 50, 0.4);
 }
-

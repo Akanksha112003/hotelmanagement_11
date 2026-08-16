@@ -1,23 +1,27 @@
 import { apiRequest } from "./client";
 
 export function getCheckins() {
-  return apiRequest("/checkins");
+  return apiRequest("/checkin");
 }
 
 export function createCheckin(data) {
-  return apiRequest("/checkins", {
+  return apiRequest("/checkin", {
     method: "POST",
     body: data,
   });
 }
+
 export function deleteCheckin(id) {
-  return apiRequest(`/checkins/${id}`, {
+  return apiRequest(`/checkin/${id}`, {
     method: "DELETE",
   });
 }
 
+// Updates the check-in record status to checked-out
 export function checkoutGuest(id) {
-  return apiRequest(`/checkins/${id}/checkout`, {
-    method: "PATCH",
+  return apiRequest(`/checkin/${id}`, {
+    method: "PUT",
+    body: { status: "checked-out" },
   });
 }
+

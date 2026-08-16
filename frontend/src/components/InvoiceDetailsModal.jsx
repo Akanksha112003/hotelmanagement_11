@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { X, Printer, Download, CreditCard, Building2, User, Home, Calendar, ShieldAlert } from "lucide-react";
 import InvoiceStatusBadge from "./InvoiceStatusBadge";
 import { useHotelProfile } from "../context/HotelProfileContext";
@@ -67,7 +69,7 @@ export default function InvoiceDetailsModal({ invoice, onClose, onRecordPayment 
             {invoice.balanceAmount > 0 && invoice.invoiceStatus !== "Cancelled" && (
               <button
                 onClick={() => onRecordPayment(invoice)}
-                className="px-4 py-2 rounded-full bg-[#059669] hover:bg-emerald-700 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all"
+                className="px-4 py-2 rounded-full bg-[#A38A5A] hover:bg-[#8C7447] text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer"
               >
                 <CreditCard className="w-4 h-4" /> Record Payment
               </button>

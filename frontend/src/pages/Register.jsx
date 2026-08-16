@@ -105,13 +105,13 @@ export default function Register() {
         
         {/* Minimal Hero Header */}
         <div className="acg-anim-fade-up acg-d-100" style={S.heroHeader}>
-          <div style={S.collectionBadge}>AZURE COAST COLLECTION</div>
+          <div style={S.collectionBadge}>THE AURELIA GRAND</div>
           <h1 style={S.editorialHeading}>
-            Stay Beyond<br />
-            Expectations
+            Classic Hospitality.<br />
+            Modern Excellence.
           </h1>
           <p style={S.editorialSubtitle}>
-            Luxury hospitality management platform for hotels, resorts, and premium guest experiences.
+            Luxury property management platform for hotel operations, guest services, and revenue control.
           </p>
         </div>
 
@@ -152,13 +152,13 @@ export default function Register() {
           <div style={S.cardHeader}>
             <div style={S.brandLogo}>
               <div style={S.brandIcon}><LogoIcon /></div>
-              <span style={S.brandName}>Azure Coast</span>
+              <span style={S.brandName}>THE AURELIA GRAND</span>
             </div>
             <h2 className="acg-anim-fade-up acg-d-300" style={S.cardTitle}>
               Get Started
             </h2>
             <p className="acg-anim-fade-up acg-d-400" style={S.cardSubtitle}>
-              Register to create your account.
+              Register to create your workspace.
             </p>
           </div>
 
@@ -288,7 +288,7 @@ export default function Register() {
               </svg>
             </div>
             <h2 style={S.modalTitle}>Registration Successful</h2>
-            <p style={S.modalMessage}>Your Azure Coast account has been created successfully.</p>
+            <p style={S.modalMessage}>Your Aurelia Grand account has been created successfully.</p>
             <button
               type="button"
               className="acg-btn"

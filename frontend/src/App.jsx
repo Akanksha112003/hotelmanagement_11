@@ -16,7 +16,8 @@ import Reports from "./pages/Reports";
 import HotelProfile from "./pages/HotelProfile";
 import Settings from "./pages/Settings";
 import UserProfile from "./pages/UserProfile";
-import ChangePassword from "./pages/ChangePassword";
+
+
 import RoomSettingsPage from "./pages/RoomSettingsPage";
 import { isAuthenticated } from "./utils/auth";
 import { HotelProfileProvider } from "./context/HotelProfileContext";
@@ -79,14 +80,6 @@ function App() {
         />
         <Route
           path="/check-ins"
-          element={
-            <ProtectedRoute>
-              <CheckIn />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/requests"
           element={
             <ProtectedRoute>
               <CheckIn />
@@ -157,14 +150,8 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/change-password"
-          element={
-            <ProtectedRoute>
-              <ChangePassword />
-            </ProtectedRoute>
-          }
-        />
+        {/* /change-password removed — password reset is now on the Login page */}
+
         <Route
           path="/room-settings"
           element={

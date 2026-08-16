@@ -6,7 +6,7 @@ const hotelProfileSchema = new mongoose.Schema(
       type: String,
       required: [true, "Hotel name is required"],
       trim: true,
-      default: "Azure Coast Resort & Spa",
+      default: "THE AURELIA GRAND",
     },
     logo: {
       type: String,
@@ -16,58 +16,58 @@ const hotelProfileSchema = new mongoose.Schema(
     address: {
       type: String,
       trim: true,
-      default: "100 Hospitality Blvd, Ocean View Drive",
+      default: "100 Hospitality Blvd, Heritage Precinct",
     },
     city: {
       type: String,
       trim: true,
-      default: "Miami",
+      default: "New Delhi",
     },
     state: {
       type: String,
       trim: true,
-      default: "Florida",
+      default: "Delhi",
     },
     country: {
       type: String,
       trim: true,
-      default: "United States",
+      default: "India",
     },
     zipCode: {
       type: String,
       trim: true,
-      default: "33139",
+      default: "110001",
     },
     phone: {
       type: String,
       trim: true,
-      default: "+1 (800) 555-HOTEL",
+      default: "+91 (11) 2345-6789",
     },
     email: {
       type: String,
       trim: true,
       lowercase: true,
-      default: "contact@azurecoastresort.com",
+      default: "concierge@aureliagrand.com",
     },
     website: {
       type: String,
       trim: true,
-      default: "https://azurecoastresort.com",
+      default: "https://aureliagrand.com",
     },
     taxNumber: {
       type: String,
       trim: true,
-      default: "TX-882901",
+      default: "GSTIN-07AABCT8829Q1Z5",
     },
     currency: {
       type: String,
       trim: true,
-      default: "USD",
+      default: "INR",
     },
     timeZone: {
       type: String,
       trim: true,
-      default: "America/New_York",
+      default: "Asia/Kolkata",
     },
     checkInTime: {
       type: String,
@@ -83,7 +83,7 @@ const hotelProfileSchema = new mongoose.Schema(
       type: String,
       trim: true,
       default:
-        "Luxury seaside hotel and resort offering premium guest accommodations, world-class amenities, and executive hospitality management.",
+        "Classic Hospitality. Modern Excellence. The Aurelia Grand provides luxury guest accommodations, heritage hospitality, and executive management.",
     },
     socialMedia: {
       facebook: { type: String, trim: true, default: "" },
